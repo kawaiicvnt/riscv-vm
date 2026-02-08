@@ -52,17 +52,20 @@ pub mod MASK {
 }
 
 // Opcodes
-pub(crate) const OP_LUI: u8 =  0x37; // LUI
-pub(crate) const OP_AUIPC: u8 = 0x17; // AUIPC
-pub(crate) const OP_JAL: u8 = 0x6F; // JAL
-pub(crate) const OP_JALR: u8 = 0x67; // JALR
-pub(crate) const OP_BRANCH: u8 = 0x63; // BEQ, BNE, BLT, BGE, BLTU, BGEU
-pub(crate) const OP_LOAD: u8 = 0x03; // LB, LH, LW, LBU, LHU
-pub(crate) const OP_STORE: u8 = 0x02; // SB, SH, SW
-pub(crate) const OP_ALUI: u8 = 0x13; // ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI
-pub(crate) const OP_ALU: u8 = 0x33; // ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND
-pub(crate) const OP_FENCE: u8 = 0x0F; // FENCE, FENCE.I
-pub(crate) const OP_E_C: u8 = 0x73; // ECALL, EBREAK, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRSI, CSRRCI
+#[allow(non_snake_case)]
+pub(crate) mod OP {
+    pub const LUI    : u8 = 0x37; // LUI
+    pub const AUIPC  : u8 = 0x17; // AUIPC
+    pub const JAL    : u8 = 0x6F; // JAL
+    pub const JALR   : u8 = 0x67; // JALR
+    pub const BRANCH : u8 = 0x63; // BEQ, BNE, BLT, BGE, BLTU, BGEU
+    pub const LOAD   : u8 = 0x03; // LB, LH, LW, LBU, LHU
+    pub const STORE  : u8 = 0x02; // SB, SH, SW
+    pub const ALUI   : u8 = 0x13; // ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI
+    pub const ALU    : u8 = 0x33; // ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND
+    pub const FENCE  : u8 = 0x0F; // FENCE, FENCE.I
+    pub const E_C    : u8 = 0x73; // ECALL, EBREAK, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRSI, CSRRCI
+}
 
 // Function 3 Codes
 pub(crate) const F3_BEQ: u8 = 0x00;

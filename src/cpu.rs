@@ -65,7 +65,7 @@ mod tests {
     fn test_fetch() {
         let mut cpu = CPU::new();
         cpu.pc = 0x10;
-        let instruction = 0xA51E9F80 | OP_JAL as u32;
+        let instruction = 0xA51E9F80 | OP::JAL as u32;
         cpu.memory.set_u32(cpu.pc, instruction);
 
         // Fetch instruction
@@ -73,7 +73,7 @@ mod tests {
 
         // Verify results
         assert_eq!(cpu.instruction, instruction);
-        assert_eq!(cpu.opcode, OP_JAL);
+        assert_eq!(cpu.opcode, OP::JAL);
     }
 }
 

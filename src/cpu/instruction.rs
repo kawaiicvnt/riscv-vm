@@ -270,16 +270,16 @@ impl CPU {
 
     pub(crate) fn exec_inst(&mut self) -> bool {
         match self.opcode {
-            OP_LUI => self.inst_lui(),
-            OP_JAL => self.inst_jal(),
-            OP_JALR => self.inst_jalr(),
-            OP_BRANCH => self.inst_branch(),
-            OP_LOAD => self.inst_load(),
-            OP_STORE => self.inst_store(),
-            OP_ALUI => self.inst_alui(),
-            OP_ALU => self.inst_alu(),
-            //OP_FENCE => self.inst_fence(),
-            OP_E_C => return true,
+            OP::LUI => self.inst_lui(),
+            OP::JAL => self.inst_jal(),
+            OP::JALR => self.inst_jalr(),
+            OP::BRANCH => self.inst_branch(),
+            OP::LOAD => self.inst_load(),
+            OP::STORE => self.inst_store(),
+            OP::ALUI => self.inst_alui(),
+            OP::ALU => self.inst_alu(),
+            //OP::FENCE => self.inst_fence(),
+            OP::E_C => return true,
             0x0 => return true,
             _ => panic!("Invalid opcode: 0b{:0>8b}", self.opcode),
         }

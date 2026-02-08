@@ -11,7 +11,7 @@ mod test_store {
         cpu.registers.set_register(REG_S1, 0xCC33CC33);
         cpu.registers.set_register(REG_S0, 10);
         cpu.pc = 0x10;
-        cpu.opcode = OP_STORE;
+        cpu.opcode = OP::STORE;
 
         // WORD
 
@@ -29,7 +29,7 @@ mod test_store {
             cpu.memory.get_u32(0x55A));
         assert_eq!(cpu.pc, 0x14, "PC was not updated correctly!");
 
-        cpu.opcode = OP_STORE;
+        cpu.opcode = OP::STORE;
         cpu.instruction = InstructionBuilder.store(0x554, F3_SH, REG_S1, REG_S0);
 
     }
@@ -40,7 +40,7 @@ mod test_store {
         cpu.registers.set_register(REG_S1, 0xCC33CC33);
         cpu.registers.set_register(REG_S0, 10);
         cpu.pc = 0x10;
-        cpu.opcode = OP_STORE;
+        cpu.opcode = OP::STORE;
 
         // WORD
 
@@ -64,7 +64,7 @@ mod test_store {
         cpu.registers.set_register(REG_S1, 0xCC33CC33);
         cpu.registers.set_register(REG_S0, 10);
         cpu.pc = 0x10;
-        cpu.opcode = OP_STORE;
+        cpu.opcode = OP::STORE;
 
         // WORD
 

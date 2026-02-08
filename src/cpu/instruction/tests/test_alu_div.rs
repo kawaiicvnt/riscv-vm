@@ -1,7 +1,7 @@
 use crate::cpu::CPU;
 use crate::cpu::instruction::builder::InstructionBuilder;
-use crate::cpu::opcodes::{F3_DIV, F3_DIVU, F7_M_EXTENSION, OP_ALU};
-use crate::cpu::register::{REG_S0, REG_S1};
+use crate::cpu::opcodes::*;
+use crate::cpu::register::*;
 
 #[test]
 fn test_div() {
@@ -9,7 +9,7 @@ fn test_div() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -31,7 +31,7 @@ fn test_div_non_perfect() {
     cpu.registers.set_register(REG_S1, 0x14);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -53,7 +53,7 @@ fn test_div_negative_dividend() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFF);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -75,7 +75,7 @@ fn test_div_negative_divisor() {
     cpu.registers.set_register(REG_S1, 0xFFFFFFFF);
     cpu.registers.set_register(REG_S0, 0x1);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -97,7 +97,7 @@ fn test_div_negative_double() {
     cpu.registers.set_register(REG_S1, 0xFFFFFFFC);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFE);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -119,7 +119,7 @@ fn test_div_complex() {
     cpu.registers.set_register(REG_S1, 0x840);
     cpu.registers.set_register(REG_S0, 0x1F4);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -141,7 +141,7 @@ fn test_div_zero_dividend() {
     cpu.registers.set_register(REG_S1, 0x0);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -163,7 +163,7 @@ fn test_div_zero_divisor() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x0);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -185,7 +185,7 @@ fn test_divu() {
     cpu.registers.set_register(REG_S1, 0x14);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIVU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -207,7 +207,7 @@ fn test_divu_zero_dividend() {
     cpu.registers.set_register(REG_S1, 0x0);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIVU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -229,7 +229,7 @@ fn test_divu_zero_divisor() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x0);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIVU, REG_S0, REG_S1, REG_S0);
 
     // Execute load

@@ -1,7 +1,7 @@
 use crate::cpu::CPU;
 use crate::cpu::instruction::builder::InstructionBuilder;
-use crate::cpu::opcodes::{F3_MUL, F3_MULH, F3_MULHSU, F3_MULHU, F7_M_EXTENSION, OP_ALU};
-use crate::cpu::register::{REG_S0, REG_S1};
+use crate::cpu::opcodes::*;
+use crate::cpu::register::*;
 
 #[test]
 fn test_mul()
@@ -10,7 +10,7 @@ fn test_mul()
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MUL, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -33,7 +33,7 @@ fn test_mul_double_negative()
     cpu.registers.set_register(REG_S1, 0xFFFFFFFF);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFE);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MUL, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -56,7 +56,7 @@ fn test_mul_single_negative()
     cpu.registers.set_register(REG_S1, 0xFFFFFFFE);
     cpu.registers.set_register(REG_S0, 0x2);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MUL, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -79,7 +79,7 @@ fn test_mul_overflow()
     cpu.registers.set_register(REG_S1, 0x10000000);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MUL, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -101,7 +101,7 @@ fn test_mulh() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULH, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -124,7 +124,7 @@ fn test_mulh_double_negative()
     cpu.registers.set_register(REG_S1, 0xFFFFFFFF);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFE);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULH, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -147,7 +147,7 @@ fn test_mulh_single_negative()
     cpu.registers.set_register(REG_S1, 0xFFFFFFFE);
     cpu.registers.set_register(REG_S0, 0x2);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULH, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -170,7 +170,7 @@ fn test_mulh_overflow_to_higher()
     cpu.registers.set_register(REG_S1, 0x1000000);
     cpu.registers.set_register(REG_S0, 0x100);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULH, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -193,7 +193,7 @@ fn test_mulh_overflow()
     cpu.registers.set_register(REG_S1, 0xFFFFFFFF);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFF);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULH, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -215,7 +215,7 @@ fn test_mulhsu() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHSU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -237,7 +237,7 @@ fn test_mulhsu_negative_small_int() {
     cpu.registers.set_register(REG_S1, 0xC4653600);
     cpu.registers.set_register(REG_S0, 0x3B9ACA00);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHSU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -259,7 +259,7 @@ fn test_mulhsu_negative_big_int() {
     cpu.registers.set_register(REG_S1, 0xC4653600);
     cpu.registers.set_register(REG_S0, 0xC4653600);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHSU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -281,7 +281,7 @@ fn test_mulhsu_positive_big_int() {
     cpu.registers.set_register(REG_S1, 0x3B9ACA00);
     cpu.registers.set_register(REG_S0, 0xC4653600);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHSU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -303,7 +303,7 @@ fn test_mulhu() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -325,7 +325,7 @@ fn test_mulhu_high_ls() {
     cpu.registers.set_register(REG_S1, 0x1A2B7F0D);
     cpu.registers.set_register(REG_S0, 0x10000000);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -347,7 +347,7 @@ fn test_mulhu_ls_high() {
     cpu.registers.set_register(REG_S1, 0x10000000);
     cpu.registers.set_register(REG_S0, 0x1A2B7F0D);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -369,7 +369,7 @@ fn test_mulhu_high_high() {
     cpu.registers.set_register(REG_S1, 0xEE6B2800);
     cpu.registers.set_register(REG_S0, 0xEE6B2800);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_MULHU, REG_S0, REG_S1, REG_S0);
 
     // Execute load

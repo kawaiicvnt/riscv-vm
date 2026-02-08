@@ -1,7 +1,8 @@
+#[cfg(test)]
 mod test_lui {
     use crate::cpu::CPU;
     use crate::cpu::instruction::builder::InstructionBuilder;
-    use crate::cpu::opcodes::OP_LUI;
+    use crate::cpu::opcodes::OP;
     use crate::cpu::register::REG_S0;
 
     #[test]
@@ -9,7 +10,7 @@ mod test_lui {
         let mut cpu = CPU::new();
         cpu.pc = 0x10;
         cpu.instruction = InstructionBuilder.lui(0x420, REG_S0);
-        cpu.opcode = OP_LUI;
+        cpu.opcode = OP::LUI;
 
         // Execute LUI
         cpu.inst_lui();

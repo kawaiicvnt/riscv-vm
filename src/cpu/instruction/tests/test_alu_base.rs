@@ -1,7 +1,7 @@
 use crate::cpu::CPU;
 use crate::cpu::instruction::builder::InstructionBuilder;
-use crate::cpu::opcodes::{F3_ADD_SUB, F3_AND, F3_OR, F3_SLL, F3_SLT, F3_SLTU, F3_SRL_SLA, F3_XOR, F7_ADD, F7_SRA, F7_SRL, F7_SUB, OP_ALU};
-use crate::cpu::register::{REG_S0, REG_S1};
+use crate::cpu::opcodes::*;
+use crate::cpu::register::*;
 
 #[test]
 fn test_add() {
@@ -9,7 +9,7 @@ fn test_add() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_ADD, F3_ADD_SUB, REG_S1, REG_S0, REG_S0);
 
     // Execute load
@@ -31,7 +31,7 @@ fn test_sub() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_SUB, F3_ADD_SUB, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -53,7 +53,7 @@ fn test_sll() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 8);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(0, F3_SLL, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -75,7 +75,7 @@ fn test_slt() {
     cpu.registers.set_register(REG_S1, 0x419);
     cpu.registers.set_register(REG_S0, 0x420);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(0, F3_SLT, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -97,7 +97,7 @@ fn test_sltu() {
     cpu.registers.set_register(REG_S1, 0x421);
     cpu.registers.set_register(REG_S0, 0x420);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(0, F3_SLTU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -119,7 +119,7 @@ fn test_xor() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 0xF00FF00F);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(0, F3_XOR, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -141,7 +141,7 @@ fn test_srl() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 0x8);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_SRL, F3_SRL_SLA, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -163,7 +163,7 @@ fn test_sra() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 0x8);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_SRA, F3_SRL_SLA, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -185,7 +185,7 @@ fn test_or() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 0x330000CC);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(0, F3_OR, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -207,7 +207,7 @@ fn test_and() {
     cpu.registers.set_register(REG_S1, 0xCC33CC33);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(0, F3_AND, REG_S0, REG_S1, REG_S0);
 
     // Execute load

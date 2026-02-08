@@ -11,7 +11,7 @@ mod test_load {
         let address = 0x50;
         cpu.memory.set_u32(0x50, 0xCC33CC33);
         cpu.pc = 0x10;
-        cpu.opcode = OP_LOAD;
+        cpu.opcode = OP::LOAD;
         cpu.instruction = InstructionBuilder.load(address, F3_LW, REG_S0);
 
         // Execute load
@@ -33,7 +33,7 @@ mod test_load {
         let address = 0x50;
         cpu.memory.set_u32(0x50, 0xCC33CC33);
         cpu.pc = 0x10;
-        cpu.opcode = OP_LOAD;
+        cpu.opcode = OP::LOAD;
         cpu.instruction = InstructionBuilder.load(address, F3_LH, REG_S0);
 
         // Execute load
@@ -54,7 +54,7 @@ mod test_load {
         let address = 0x50;
         cpu.memory.set_u32(0x50, 0xCC33CC33);
         cpu.pc = 0x10;
-        cpu.opcode = OP_LOAD;
+        cpu.opcode = OP::LOAD;
         cpu.instruction = InstructionBuilder.load(address, F3_LB, REG_S0);
 
         // Execute load

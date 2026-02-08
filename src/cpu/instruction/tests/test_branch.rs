@@ -10,7 +10,7 @@ mod test_branch {
         cpu.registers.set_register(REG_S1, rs1);
         cpu.registers.set_register(REG_S2, rs2);
         cpu.pc = 0x10;
-        cpu.opcode = OP_BRANCH;
+        cpu.opcode = OP::BRANCH;
         cpu.instruction = InstructionBuilder.branch(offset, funct3, REG_S2, REG_S1);
     }
 

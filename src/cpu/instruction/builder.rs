@@ -11,7 +11,7 @@ impl InstructionBuilder {
     pub fn lui(&self, imm: u32, rd: u8) -> u32 {
         imm << 12
         | ((rd as u32) << 7)
-        | OP_LUI as u32
+        | OP::LUI as u32
     }
     
     pub fn jal(&self, address: u32, rd: u8) -> u32 {
@@ -21,7 +21,7 @@ impl InstructionBuilder {
             | ((address & 0x7FE) << 20);                    // Bits 10:1
         imm_encoded
         | ((rd as u32) << 7)
-        | OP_JAL as u32
+        | OP::JAL as u32
     }
 
     pub fn jalr(&self, offset: u32, rs1: u8, rd: u8) -> u32 {
@@ -32,14 +32,14 @@ impl InstructionBuilder {
         imm_encoded // We don't offset imm here, as it already is offset
         | (rs1 as u32) << 15
         | (rd as u32) << 7
-        | OP_JALR as u32
+        | OP::JALR as u32
     }
 
     pub fn load(&self, address: u32, funct3: u8, rd: u8) -> u32 {
         (address << 20)
         | (funct3 as u32) << 12
         | (rd as u32) << 7
-        | OP_LOAD as u32
+        | OP::LOAD as u32
     }
 
     pub fn store(&self, address: u32, funct3: u8, rs2: u8, rs1: u8) -> u32 {
@@ -51,7 +51,7 @@ impl InstructionBuilder {
         | (rs1 as u32) << 15
         | (funct3 as u32) << 12
         | imm_4_0 << 7
-        | OP_STORE as u32
+        | OP::STORE as u32
     }
 
     pub fn branch(&self, offset: u32, funct3: u8, rs2: u8, rs1: u8) -> u32 {
@@ -67,7 +67,7 @@ impl InstructionBuilder {
         | (funct3 as u32) << 12
         | imm_4_1 << 8
         | imm_11 << 7
-        | OP_BRANCH as u32
+        | OP::BRANCH as u32
     }
 
     pub fn alui(&self, imm: u32, funct3: u8, rs1: u8, rd: u8) -> u32 {
@@ -75,7 +75,7 @@ impl InstructionBuilder {
         | (rs1 as u32) << 15
         | (funct3 as u32) << 12
         | (rd as u32) << 7
-        | OP_ALUI as u32
+        | OP::ALUI as u32
     }
 
     pub fn alu(&self, funct7: u8, funct3: u8, rs2: u8, rs1: u8, rd: u8) -> u32 {
@@ -84,6 +84,6 @@ impl InstructionBuilder {
         | (rs1 as u32) << 15
         | (funct3 as u32) << 12
         | (rd as u32) << 7
-        | OP_ALU as u32
+        | OP::ALU as u32
     }
 }

@@ -8,7 +8,7 @@ mod test_alui {
     fn prep_alui_inst(cpu: &mut CPU, funct3: u8, rs1: u32, rd: u8, imm: u32) {
         cpu.registers.set_register(REG_S1, rs1);
         cpu.pc = 0x10;
-        cpu.opcode = OP_ALUI;
+        cpu.opcode = OP::ALUI;
         cpu.instruction = InstructionBuilder.alui(imm, funct3, REG_S1, rd);
     }
 

@@ -1,7 +1,7 @@
 use crate::cpu::CPU;
 use crate::cpu::instruction::builder::InstructionBuilder;
-use crate::cpu::opcodes::{F3_REM, F3_REMU, F7_M_EXTENSION, OP_ALU};
-use crate::cpu::register::{REG_S0, REG_S1};
+use crate::cpu::opcodes::*;
+use crate::cpu::register::*;
 
 #[test]
 fn test_rem() {
@@ -9,7 +9,7 @@ fn test_rem() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -31,7 +31,7 @@ fn test_rem_zero_dividend() {
     cpu.registers.set_register(REG_S1, 0x0);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -53,7 +53,7 @@ fn test_rem_zero_divisor() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x0);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -75,7 +75,7 @@ fn test_rem_negative_dividend() {
     cpu.registers.set_register(REG_S1, 0xFFFF0000);
     cpu.registers.set_register(REG_S0, 0xA);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -97,7 +97,7 @@ fn test_rem_negative_divisor() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFD);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -119,7 +119,7 @@ fn test_rem_negative_double() {
     cpu.registers.set_register(REG_S1, 0xFFFF0000);
     cpu.registers.set_register(REG_S0, 0xFFFFFFF5);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -141,7 +141,7 @@ fn test_rem_overflow() {
     cpu.registers.set_register(REG_S1, 0xF0000000);
     cpu.registers.set_register(REG_S0, 0xFFFFFFFF);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REM, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -163,7 +163,7 @@ fn test_remu() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REMU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -185,7 +185,7 @@ fn test_remu_zero_dividend() {
     cpu.registers.set_register(REG_S1, 0x0);
     cpu.registers.set_register(REG_S0, 0x10);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REMU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -207,7 +207,7 @@ fn test_remu_zero_divisor() {
     cpu.registers.set_register(REG_S1, 0x10);
     cpu.registers.set_register(REG_S0, 0x0);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REMU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
@@ -229,7 +229,7 @@ fn test_remu_large_dividend() {
     cpu.registers.set_register(REG_S1, 0xF0000000);
     cpu.registers.set_register(REG_S0, 0x15);
     cpu.pc = 0x10;
-    cpu.opcode = OP_ALU;
+    cpu.opcode = OP::ALU;
     cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_REMU, REG_S0, REG_S1, REG_S0);
 
     // Execute load
