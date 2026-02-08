@@ -146,19 +146,22 @@ pub(crate) mod F3 {
 }
 
 // Function 7 codes
-pub(crate) const F7_SRLI: u8 = 0x00;
-pub(crate) const F7_SRAI: u8 = 0x08;
+#[allow(non_snake_case)]
+pub(crate) mod F7 {
+    pub const SRLI: u8 = 0x00;
+    pub const F7_SRAI: u8 = 0x08;
 
-pub(crate) const F7_ADD: u8 = 0x00;
-pub(crate) const F7_SUB: u8 = 0x20;
+    pub const ADD: u8 = 0x00;
+    pub const SUB: u8 = 0x20;
 
-// These codes are used for every M extension instruction
-pub(crate) const F7_M_EXTENSION: u8 = 0x33;
-// W instructions are valid for RV64. We're only targeting RV32
-// pub(crate) const F7_M_EXTENSION_W: u8 = 0x3B;
+    // These codes are used for every M extension instruction
+    pub const M_EXTENSION: u8 = 0x33;
+    // W instructions are valid for RV64. We're only targeting RV32 for now
+    // pub const M_EXTENSION_W: u8 = 0x3B;
 
-pub(crate) const F7_SRL: u8 = 0x00;
-pub(crate) const F7_SRA: u8 = 0x20;
+    pub const SRL: u8 = 0x00;
+    pub const SRA: u8 = 0x20;
+}
 
 pub(crate) const F73_ADD: u16 = ((F7_ADD as u16) << 3) | (F3::ADD_SUB as u16);
 pub(crate) const F73_SUB: u16 = ((F7_SUB as u16) << 3) | (F3::ADD_SUB as u16);
