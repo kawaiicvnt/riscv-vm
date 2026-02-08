@@ -10,24 +10,25 @@ use crate::cpu::register::*;
 impl CPU {
 
     fn inst_lui(&mut self) {
-        let rd = ((self.instruction >> 7) & 0x1F) as u8;
-        // LUI is a special case, it's an immediate, not an offset
-        // The LUI instruction stores the 20-bit immediate
-        // in the 20 most significant bits of the destination register.
-        // The 12 least significant bits are set to zero.
-        let imm = self.instruction & 0xFFFFF000;
+        let rd = ((self.instruction & MASK::RD) >> 7) as u8;
+        /* LUI is a special case, it's an immediate, not an offset
+         * The LUI instruction stores the 20-bit immediate
+         * in the 20 most significant bits of the destination register.
+         * The 12 least significant bits are set to zero.
+         * Thus we do not need to shift right at all
+         */
+        let imm = self.instruction & MASK::LUI_IMM;
         self.registers.set_register(rd, imm);
         self.pc += 4;
     }
     
     fn inst_jal(&mut self) {
-        let rd = ((self.instruction >> 7) as u8) & 0x1F;
-
+        let rd = ((self.instruction & MASK::RD) >> 7) as u8;
         // Immediate is split into parts, reconstruct it correctly
-        let imm_20 = ((self.instruction >> 31) & 0x1) << 20; // Bit 20
-        let imm_10_1 = ((self.instruction >> 21) & 0x3FF) << 1; // Bits 10:1
-        let imm_11 = ((self.instruction >> 20) & 0x1) << 11; // Bit 11
-        let imm_19_12 = ((self.instruction >> 12) & 0xFF) << 12; // Bits 19:12
+        let imm_20 = (self.instruction & MASK::JAL_IMM_20) >> 11; // Bit 20
+        let imm_10_1 = (self.instruction & MASK::JAL_IMM_10_1) >> 20; // Bits 10:1
+        let imm_11 = (self.instruction & MASK::JAL_IMM_11) >> 9; // Bit 11
+        let imm_19_12 = self.instruction & MASK::JAL_IMM_19_12; // Bits 19:12
 
         // Combine and sign-extend the immediate
         let imm = imm_20 | imm_19_12 | imm_11 | imm_10_1;
@@ -38,18 +39,19 @@ impl CPU {
     }
 
     fn inst_jalr(&mut self) {
-        let rd = ((self.instruction >> 7) as u8) & 0x1F;
-        let rs1 = ((self.instruction >> 15) as u8) & 0x1F;
-        let imm = (self.instruction >> 20) & 0xFFFFF;
+        let rd = ((self.instruction & MASK::RD) >> 7) as u8;
+        let rs1 = ((self.instruction & MASK::RS1) >> 15) as u8; // Bits 15:11
+        let imm = (self.instruction & MASK::JALR_IMM) >> 20;
+
         self.registers.set_register(rd, self.pc + 4);
         self.pc = self.pc + imm + self.registers.get_register(rs1);
     }
 
     fn inst_load(&mut self) {
-        let rd = ((self.instruction >> 7) & 0x1F) as u8; // Bits 7:2
-        let funct3 = ((self.instruction >> 12) & 0x7) as u8; // Bits 14:12
-        let rs1 = ((self.instruction >> 15) & 0x1F) as u8; // Bits 15:11
-        let imm = (self.instruction >> 20) & 0xFFF; // Bits 31:20
+        let rd = ((self.instruction & MASK::RD) >> 7) as u8;
+        let funct3 = ((self.instruction & MASK::F3) >> 12) as u8; // Bits 14:12
+        let rs1 = ((self.instruction & MASK::RS1) >> 15) as u8; // Bits 15:11
+        let imm = (self.instruction & MASK::LOAD_IMM) >> 20; // Bits 31:20
 
         match funct3 {
             F3_LW => {
@@ -73,11 +75,11 @@ impl CPU {
 
     // TODO: Double check endianness
     fn inst_store(&mut self) {
-        let funct3 = (self.instruction >> 12) as u8 & 0x7;
-        let rs1 = (self.instruction >> 15) as u8 & 0x1F;
-        let rs2 = (self.instruction >> 20) as u8 & 0x1F;
-        let imm_11_5 = self.instruction >> 25 & 0x7F;
-        let imm_4_0 = self.instruction >> 7 & 0x1F;
+        let funct3 = ((self.instruction & MASK::F3) >> 12) as u8;
+        let rs1 = ((self.instruction & MASK::RS1) >> 15) as u8;
+        let rs2 = ((self.instruction & MASK::RS2) >> 20) as u8;
+        let imm_11_5 = (self.instruction & MASK::STORE_IMM_11_5) >> 25;
+        let imm_4_0 = (self.instruction & MASK::STORE_IMM_4_0) >> 7;
         let imm = imm_11_5 << 5 | imm_4_0;
 
         match funct3 {
@@ -99,13 +101,15 @@ impl CPU {
     }
 
     fn inst_branch(&mut self) {
-        let rs1 = ((self.instruction >> 15) as u8) & 0x1F;
-        let rs2 = ((self.instruction >> 20) as u8) & 0x1F;
-        let funct3 = ((self.instruction >> 12) as u8) & 0x7;
-        let imm_12 = ((self.instruction >> 31) & 0x1) << 12;
-        let imm_11 = ((self.instruction >> 7) & 0x1) << 11;
-        let imm_10_5 = ((self.instruction >> 25) & 0x7F) << 5;
-        let imm_4_1 = ((self.instruction >> 8) & 0xF) << 1;
+        let rs1 = ((self.instruction & MASK::RS1) >> 15) as u8;
+        let rs2 = ((self.instruction & MASK::RS2) >> 20) as u8;
+        let funct3 = ((self.instruction & MASK::F3) >> 12) as u8;
+
+        let imm_12 = ((self.instruction & MASK::BRANCH_IMM_12) >> 31) << 12;
+        let imm_11 = ((self.instruction & MASK::BRANCH_IMM_11) >> 7) << 11;
+        let imm_10_5 = ((self.instruction & MASK::BRANCH_IMM_10_5) >> 25) << 5;
+        let imm_4_1 = ((self.instruction & MASK::BRANCH_IMM_4_1) >> 8) << 1;
+        
         let imm = imm_12 | imm_11 | imm_10_5 | imm_4_1;
 
         let condition:bool;
@@ -142,10 +146,10 @@ impl CPU {
     }
 
     fn inst_alui(&mut self) {
-        let rd = ((self.instruction >> 7) & 0x1F) as u8;
-        let funct3 = ((self.instruction >> 12) & 0x7) as u8;
-        let rs1 = ((self.instruction >> 15) & 0x1F) as u8;
-        let imm = (self.instruction >> 20) & 0xFFF;
+        let rd = ((self.instruction & MASK::RD) >> 7) as u8;
+        let funct3 = ((self.instruction & MASK::F3) >> 12) as u8;
+        let rs1 = ((self.instruction & MASK::RS1) >> 15) as u8;
+        let imm = (self.instruction & MASK::ALUI_IMM) >> 20;
 
         let rs1_value = self.registers.get_register(rs1);
         let result:u32;
@@ -190,12 +194,12 @@ impl CPU {
     }
 
     fn inst_alu(&mut self) {
-        let rd = ((self.instruction >> 7) & 0x1F) as u8;
-        let funct3 = ((self.instruction >> 12) & 0x7) as u8;
-        let rs1 = ((self.instruction >> 15) & 0x1F) as u8;
-        let rs2 = ((self.instruction >> 20) & 0x1F) as u8;
-        let funct7 = ((self.instruction >> 25) & 0x7F) as u8;
+        let rd = (self.instruction & MASK::RD) >> 7;
+        let funct3 = ((self.instruction & MASK::F3) >> 12) as u8;
+        let funct7 = ((self.instruction & MASK::F7) >> 25) as u8;
         let funct73:u16 = ((funct7 as u16) << 3) | funct3 as u16;
+        let rs1 = ((self.instruction & MASK::RS1) >> 15) as u8;
+        let rs2 = ((self.instruction & MASK::RS2) >> 20) as u8;
 
         let rs1_value = self.registers.get_register(rs1);
         let rs2_value = self.registers.get_register(rs2);
@@ -260,7 +264,7 @@ impl CPU {
             }
         }
 
-        self.registers.set_register(rd, result);
+        self.registers.set_register(rd as u8, result);
         self.pc += 4;
     }
 

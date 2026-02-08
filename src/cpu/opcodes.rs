@@ -1,9 +1,57 @@
 // RISC-V Tiny VM - Ivi Ballou / Amechania
 
-// 32-bit RISC-V instructions
+/* 32-bit RISC-V instructions
+ * 
+ * Layout:
+ * 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F
+ * 
+ * 
+ */ 
+
+// Silly rust compiler
+#![allow(dead_code)]
+
+// Masks
+#[allow(non_snake_case)]
+pub mod MASK {
+
+    // Field offsets
+    mod OFF {
+        pub const OP : u8 = 0;
+        pub const RD : u8 = 7;
+        pub const F3 : u8 = 12;
+        pub const F7 : u8 = 25;
+        pub const RS1: u8 = 15;
+        pub const RS2: u8 = 20;
+    }
+
+    pub const OP : u32 = 0x7F << OFF::OP;
+    pub const RD : u32 = 0x1F << OFF::RD;
+    pub const F3 : u32 = 0x7  << OFF::F3;
+    pub const F7 : u32 = 0x7F << OFF::F7;
+    pub const RS1: u32 = 0x1F << OFF::RS1;
+    pub const RS2: u32 = 0x1F << OFF::RS2;
+
+    pub const LUI_IMM         : u32 = 0xFF_FF_F0_00;
+    pub const JAL_IMM_20      : u32 = 0x1     << 31;
+    pub const JAL_IMM_10_1    : u32 = 0x03_FF << 21;
+    pub const JAL_IMM_11      : u32 = 0x1     << 20;
+    pub const JAL_IMM_19_12   : u32 = 0x1     << 12;
+    pub const JALR_IMM        : u32 = 0x0F_FF << 20;
+    pub const LOAD_IMM        : u32 = 0x0F_FF << 20;
+    pub const STORE_IMM_11_5  : u32 = 0x7F    << 25;
+    pub const STORE_IMM_4_0   : u32 = 0x1F    << 7;
+    pub const BRANCH_IMM_12   : u32 = 0x1     << 31;
+    pub const BRANCH_IMM_11   : u32 = 0x1     << 7;
+    pub const BRANCH_IMM_10_5 : u32 = 0x7F    << 25;
+    pub const BRANCH_IMM_4_1  : u32 = 0xF     << 8;
+    pub const ALUI_IMM        : u32 = 0x0F_FF << 20;
+
+
+
+}
 
 // Opcodes
-#![allow(dead_code)]
 pub(crate) const OP_LUI: u8 =  0x37; // LUI
 pub(crate) const OP_AUIPC: u8 = 0x17; // AUIPC
 pub(crate) const OP_JAL: u8 = 0x6F; // JAL
