@@ -54,16 +54,16 @@ impl CPU {
         let imm = (self.instruction & MASK::LOAD_IMM) >> 20; // Bits 31:20
 
         match funct3 {
-            F3_LW => {
+            F3::LW => {
                 self.registers.set_register(rd, self.memory.get_u32(self.registers.get_register(rs1) + imm));
             }
-            F3_LH => {
+            F3::LH => {
                 self.registers.set_register(rd, self.memory.get_u16(self.registers.get_register(rs1) + imm + 2) as u32);
             }
-            F3_LHU => {
+            F3::LHU => {
                 self.registers.set_register(rd, self.memory.get_u16(self.registers.get_register(rs1) + imm) as u32); // TODO: Verify
             }
-            F3_LB => {
+            F3::LB => {
                 self.registers.set_register(rd, self.memory.get_u8(self.registers.get_register(rs1) + imm + 3) as u32);
             }
             _ => {
@@ -83,13 +83,13 @@ impl CPU {
         let imm = imm_11_5 << 5 | imm_4_0;
 
         match funct3 {
-            F3_SW => {
+            F3::SW => {
                 self.memory.set_u32(self.registers.get_register(rs1) + imm, self.registers.get_register(rs2));
             }
-            F3_SH => {
+            F3::SH => {
                 self.memory.set_u16(self.registers.get_register(rs1) + imm, self.registers.get_register(rs2) as u16);
             }
-            F3_SB => {
+            F3::SB => {
                 self.memory.set_u8(self.registers.get_register(rs1) + imm, self.registers.get_register(rs2) as u8);
             }
             _ => {
@@ -115,22 +115,22 @@ impl CPU {
         let condition:bool;
 
         match funct3 {
-            F3_BEQ => {
+            F3::BEQ => {
                 condition = self.registers.get_register(rs1) == self.registers.get_register(rs2);
             }
-            F3_BNE => {
+            F3::BNE => {
                 condition = self.registers.get_register(rs1) != self.registers.get_register(rs2);
             }
-            F3_BLT => {
+            F3::BLT => {
                 condition = self.registers.get_register(rs1) < self.registers.get_register(rs2);
             }
-            F3_BGE => {
+            F3::BGE => {
                 condition = self.registers.get_register(rs1) >= self.registers.get_register(rs2);
             }
-            F3_BLTU => {
+            F3::BLTU => {
                 condition = self.registers.get_register(rs1) < self.registers.get_register(rs2);
             }
-            F3_BGEU => {
+            F3::BGEU => {
                 condition = self.registers.get_register(rs1) >= self.registers.get_register(rs2);
             }
             _ => {
@@ -154,8 +154,8 @@ impl CPU {
         let rs1_value = self.registers.get_register(rs1);
         let result:u32;
         match funct3 {
-            F3_ADDI => result = imm + rs1_value,
-            F3_SLTI => {
+            F3::ADDI => result = imm + rs1_value,
+            F3::SLTI => {
                 let mut imm_extended = imm as i32;
                 // We need to sign extend the immediate
                 if (imm & 0x800) != 0 {  // MSB is not set
@@ -163,7 +163,7 @@ impl CPU {
                 }
                 result = ((rs1_value as i32) < imm_extended) as u32;
             }
-            F3_SLTIU => {
+            F3::SLTIU => {
                 let mut imm_extended = imm;
                 // We need to sign extend the immediate
                 if (imm & 0x800) != 0 {  // MSB is not set
@@ -171,11 +171,11 @@ impl CPU {
                 }
                 result = (rs1_value < imm_extended) as u32;
             }
-            F3_XORI => result = rs1_value ^ imm,
-            F3_ORI => result = rs1_value | imm,
-            F3_ANDI => result = rs1_value & imm,
-            F3_SLLI => result = rs1_value << imm,
-            F3_SRLI_SRAI => {
+            F3::XORI => result = rs1_value ^ imm,
+            F3::ORI => result = rs1_value | imm,
+            F3::ANDI => result = rs1_value & imm,
+            F3::SLLI => result = rs1_value << imm,
+            F3::SRLI_SRAI => {
                 let slai_bit = ((self.instruction >> 30) as u8) & 0x1;
                 if slai_bit == 0 { // SLRI
                     result = rs1_value >> imm;

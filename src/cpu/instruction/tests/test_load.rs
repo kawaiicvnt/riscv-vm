@@ -12,7 +12,7 @@ mod test_load {
         cpu.memory.set_u32(0x50, 0xCC33CC33);
         cpu.pc = 0x10;
         cpu.opcode = OP::LOAD;
-        cpu.instruction = InstructionBuilder.load(address, F3_LW, REG_S0);
+        cpu.instruction = InstructionBuilder.load(address, F3::LW, REG_S0);
 
         // Execute load
         cpu.inst_load();
@@ -34,7 +34,7 @@ mod test_load {
         cpu.memory.set_u32(0x50, 0xCC33CC33);
         cpu.pc = 0x10;
         cpu.opcode = OP::LOAD;
-        cpu.instruction = InstructionBuilder.load(address, F3_LH, REG_S0);
+        cpu.instruction = InstructionBuilder.load(address, F3::LH, REG_S0);
 
         // Execute load
         cpu.inst_load();
@@ -55,7 +55,7 @@ mod test_load {
         cpu.memory.set_u32(0x50, 0xCC33CC33);
         cpu.pc = 0x10;
         cpu.opcode = OP::LOAD;
-        cpu.instruction = InstructionBuilder.load(address, F3_LB, REG_S0);
+        cpu.instruction = InstructionBuilder.load(address, F3::LB, REG_S0);
 
         // Execute load
         cpu.inst_load();

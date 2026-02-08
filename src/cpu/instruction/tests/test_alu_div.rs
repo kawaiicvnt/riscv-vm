@@ -12,7 +12,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x10);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -34,7 +34,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x10);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -56,7 +56,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0xFFFFFFFF);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -78,7 +78,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x1);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -100,7 +100,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0xFFFFFFFE);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -122,7 +122,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x1F4);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -144,7 +144,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x10);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -166,7 +166,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x0);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIV, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIV, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -188,7 +188,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x10);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIVU, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIVU, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -210,7 +210,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x10);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIVU, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIVU, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();
@@ -232,7 +232,7 @@ mod test_alu {
         cpu.registers.set_register(REG_S0, 0x0);
         cpu.pc = 0x10;
         cpu.opcode = OP::ALU;
-        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3_DIVU, REG_S0, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.alu(F7_M_EXTENSION, F3::DIVU, REG_S0, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_alu();

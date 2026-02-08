@@ -17,7 +17,7 @@ mod test_branch {
     #[test]
     fn test_beq_yes() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BEQ, 0x420, 0x420);
+        prep_branch_inst(&mut cpu, F3::BEQ, 0x420, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x118, "PC was not updated correctly!");
         assert_eq!(cpu.registers.get_register(REG_RA), 0x14);
@@ -26,7 +26,7 @@ mod test_branch {
     #[test]
     fn test_beq_no() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BEQ, 0x420, 0x421);
+        prep_branch_inst(&mut cpu, F3::BEQ, 0x420, 0x421);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x14, "PC was not updated correctly!");
     }
@@ -34,7 +34,7 @@ mod test_branch {
     #[test]
     fn test_bne_yes() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BNE, 0x420, 0x421);
+        prep_branch_inst(&mut cpu, F3::BNE, 0x420, 0x421);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x118, "PC was not updated correctly!");
         assert_eq!(cpu.registers.get_register(REG_RA), 0x14);
@@ -43,7 +43,7 @@ mod test_branch {
     #[test]
     fn test_bne_no() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BNE, 0x420, 0x420);
+        prep_branch_inst(&mut cpu, F3::BNE, 0x420, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x14, "PC was not updated correctly!");
     }
@@ -51,7 +51,7 @@ mod test_branch {
     #[test]
     fn test_blt_yes() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BLT, 0x41F, 0x420);
+        prep_branch_inst(&mut cpu, F3::BLT, 0x41F, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x118, "PC was not updated correctly!");
         assert_eq!(cpu.registers.get_register(REG_RA), 0x14);
@@ -60,7 +60,7 @@ mod test_branch {
     #[test]
     fn test_blt_no() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BLT, 0x420, 0x420);
+        prep_branch_inst(&mut cpu, F3::BLT, 0x420, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x14, "PC was not updated correctly!");
     }
@@ -68,7 +68,7 @@ mod test_branch {
     #[test]
     fn test_bge_yes_gt() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BGE, 0x422, 0x420);
+        prep_branch_inst(&mut cpu, F3::BGE, 0x422, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x118, "PC was not updated correctly!");
         assert_eq!(cpu.registers.get_register(REG_RA), 0x14);
@@ -77,7 +77,7 @@ mod test_branch {
     #[test]
     fn test_bge_yes_eq() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BGE, 0x420, 0x420);
+        prep_branch_inst(&mut cpu, F3::BGE, 0x420, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x118, "PC was not updated correctly!");
         assert_eq!(cpu.registers.get_register(REG_RA), 0x14);
@@ -86,7 +86,7 @@ mod test_branch {
     #[test]
     fn test_bge_no() {
         let mut cpu = CPU::new();
-        prep_branch_inst(&mut cpu, F3_BGE, 0x419, 0x420);
+        prep_branch_inst(&mut cpu, F3::BGE, 0x419, 0x420);
         cpu.inst_branch();
         assert_eq!(cpu.pc, 0x14, "PC was not updated correctly!");
     }

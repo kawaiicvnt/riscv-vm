@@ -15,7 +15,7 @@ mod test_alui {
     #[test]
     fn test_addi() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_ADDI, 0x420, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::ADDI, 0x420, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0x840;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -28,7 +28,7 @@ mod test_alui {
     #[test]
     fn test_slti_yes() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLTI, 0x419, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::SLTI, 0x419, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 1;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -41,7 +41,7 @@ mod test_alui {
     #[test]
     fn test_slti_no_eq() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLTI, 0x420, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::SLTI, 0x420, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -54,7 +54,7 @@ mod test_alui {
     #[test]
     fn test_slti_no_gt() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLTI, 0x421, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::SLTI, 0x421, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -67,7 +67,7 @@ mod test_alui {
     #[test]
     fn test_sltiu_yes() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLTIU, 0x419, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::SLTIU, 0x419, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 1;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -80,7 +80,7 @@ mod test_alui {
     #[test]
     fn test_sltiu_no_eq() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLTIU, 0x420, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::SLTIU, 0x420, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -93,7 +93,7 @@ mod test_alui {
     #[test]
     fn test_sltiu_no_gt() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLTIU, 0x421, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::SLTIU, 0x421, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -106,7 +106,7 @@ mod test_alui {
     #[test]
     fn test_xori() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_XORI, 0x400, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::XORI, 0x400, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0x20;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -119,7 +119,7 @@ mod test_alui {
     #[test]
     fn test_ori() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_ORI, 0x400, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::ORI, 0x400, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0x420;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -132,7 +132,7 @@ mod test_alui {
     #[test]
     fn test_andi() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_ANDI, 0x400, REG_S0, 0x420);
+        prep_alui_inst(&mut cpu, F3::ANDI, 0x400, REG_S0, 0x420);
         cpu.inst_alui();
         let expected = 0x400;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -145,7 +145,7 @@ mod test_alui {
     #[test]
     fn test_slli() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLLI, 0x400, REG_S0, 0x1);
+        prep_alui_inst(&mut cpu, F3::SLLI, 0x400, REG_S0, 0x1);
         cpu.inst_alui();
         let expected = 0x800;
         assert_eq!(cpu.registers.get_register(REG_S0), 0x800,
@@ -158,7 +158,7 @@ mod test_alui {
     #[test]
     fn test_slli_overflow() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SLLI, 0x80_00_00_00, REG_S0, 0x1);
+        prep_alui_inst(&mut cpu, F3::SLLI, 0x80_00_00_00, REG_S0, 0x1);
         cpu.inst_alui();
         let expected = 0x0;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -171,7 +171,7 @@ mod test_alui {
     #[test]
     fn test_srli() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SRLI_SRAI, 0x401, REG_S0, 0x1);
+        prep_alui_inst(&mut cpu, F3::SRLI_SRAI, 0x401, REG_S0, 0x1);
         cpu.inst_alui();
         let expected = 0x200;
         assert_eq!(cpu.registers.get_register(REG_S0), expected,
@@ -184,7 +184,7 @@ mod test_alui {
     #[test]
     fn test_srli_underflow() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SRLI_SRAI, 0x1, REG_S0, 0x1);
+        prep_alui_inst(&mut cpu, F3::SRLI_SRAI, 0x1, REG_S0, 0x1);
         cpu.inst_alui();
         let expected = 0x0;
         assert_eq!(cpu.registers.get_register(REG_S0), 0x0,
@@ -197,7 +197,7 @@ mod test_alui {
     #[test]
     fn test_srai() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SRLI_SRAI, 0x400, REG_S0, 0x1);
+        prep_alui_inst(&mut cpu, F3::SRLI_SRAI, 0x400, REG_S0, 0x1);
         // Set the SRAI bit (bit 30)
         cpu.instruction = cpu.instruction | (0x1 << 30);
         cpu.inst_alui();
@@ -208,7 +208,7 @@ mod test_alui {
     #[test]
     fn test_srai_overflow() {
         let mut cpu = CPU::new();
-        prep_alui_inst(&mut cpu, F3_SRLI_SRAI, 0x0000_03b1, REG_S0, 0x4);
+        prep_alui_inst(&mut cpu, F3::SRLI_SRAI, 0x0000_03b1, REG_S0, 0x4);
         // Set the SRAI bit (bit 30)
         cpu.instruction = cpu.instruction | (0x1 << 30);
         cpu.inst_alui();

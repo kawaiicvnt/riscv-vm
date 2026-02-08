@@ -15,7 +15,7 @@ mod test_store {
 
         // WORD
 
-        cpu.instruction = InstructionBuilder.store(0x550, F3_SW, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.store(0x550, F3::SW, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_store();
@@ -30,7 +30,7 @@ mod test_store {
         assert_eq!(cpu.pc, 0x14, "PC was not updated correctly!");
 
         cpu.opcode = OP::STORE;
-        cpu.instruction = InstructionBuilder.store(0x554, F3_SH, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.store(0x554, F3::SH, REG_S1, REG_S0);
 
     }
 
@@ -44,7 +44,7 @@ mod test_store {
 
         // WORD
 
-        cpu.instruction = InstructionBuilder.store(0x554, F3_SH, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.store(0x554, F3::SH, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_store();
@@ -68,7 +68,7 @@ mod test_store {
 
         // WORD
 
-        cpu.instruction = InstructionBuilder.store(0x558, F3_SB, REG_S1, REG_S0);
+        cpu.instruction = InstructionBuilder.store(0x558, F3::SB, REG_S1, REG_S0);
 
         // Execute load
         cpu.inst_store();
